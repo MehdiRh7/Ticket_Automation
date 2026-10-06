@@ -1,0 +1,32 @@
+@model SettingsViewModel
+@{ ViewData["Title"] = "تنظیمات"; }
+<div class="page-heading"><div><span class="eyebrow">پیکربندی</span><h1>تنظیمات Orchestrator</h1><p>اتصال دیتابیس، نگاشت ستون‌ها، مخزن و Provider را بدون تغییر کد تنظیم کنید.</p></div></div>
+@if (TempData["Success"] is string success) { <div class="alert alert-success">@success</div> }
+<form method="post" class="settings-form">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+    <section class="panel form-section"><div class="panel-heading"><h2>اجرای خودکار</h2></div><div class="row g-3">
+        <div class="col-md-4 form-check form-switch switch-row"><input asp-for="PollingEnabled" class="form-check-input" /><label asp-for="PollingEnabled">Polling فعال باشد</label></div>
+        <div class="col-md-4"><label asp-for="PollIntervalSeconds">فاصله بررسی (ثانیه)</label><input asp-for="PollIntervalSeconds" class="form-control ltr" /></div>
+        <div class="col-md-4"><label asp-for="PollBatchSize">حداکثر تیکت در هر بار</label><input asp-for="PollBatchSize" class="form-control ltr" /></div>
+    </div></section>
+    <section class="panel form-section"><div class="panel-heading"><h2>دیتابیس تیکتینگ — فقط خواندنی</h2></div><div class="row g-3">
+        <div class="col-md-4"><label asp-for="TicketDatabaseKind">نوع دیتابیس</label><select asp-for="TicketDatabaseKind" asp-items="Html.GetEnumSelectList<TicketDatabaseKind>()" class="form-select"></select></div>
+        <div class="col-md-8"><label asp-for="TicketConnectionString">Connection String</label><input asp-for="TicketConnectionString" class="form-control ltr" placeholder="@(Model.HasSavedConnectionString ? "ذخیره شده؛ برای تغییر مقدار جدید وارد کنید" : "Connection string")" autocomplete="new-password" /><div class="form-text">رمزگذاری‌شده ذخیره می‌شود و مقدار ذخیره‌شده دوباره نمایش داده نمی‌شود.</div></div>
+        <div class="col-md-4"><label asp-for="TicketTable">نام جدول</label><input asp-for="TicketTable" class="form-control ltr" /></div><div class="col-md-4"><label asp-for="IdColumn">ستون شناسه</label><input asp-for="IdColumn" class="form-control ltr" /></div><div class="col-md-4"><label asp-for="TitleColumn">ستون عنوان</label><input asp-for="TitleColumn" class="form-control ltr" /></div>
+        <div class="col-md-4"><label asp-for="DescriptionColumn">ستون شرح</label><input asp-for="DescriptionColumn" class="form-control ltr" /></div><div class="col-md-4"><label asp-for="CreatedAtColumn">ستون زمان ایجاد</label><input asp-for="CreatedAtColumn" class="form-control ltr" /></div><div class="col-md-4"><label asp-for="VersionColumn">ستون نسخه (اختیاری)</label><input asp-for="VersionColumn" class="form-control ltr" /></div>
+        <div class="col-md-6"><label asp-for="StatusColumn">ستون وضعیت</label><input asp-for="StatusColumn" class="form-control ltr" /></div><div class="col-md-6"><label asp-for="EligibleStatus">مقدار وضعیت قابل پردازش</label><input asp-for="EligibleStatus" class="form-control ltr" /></div>
+    </div></section>
+    <section class="panel form-section"><div class="panel-heading"><h2>Git و Workspace</h2></div><div class="row g-3">
+        <div class="col-12"><label asp-for="RepositoryUrl">Repository URL</label><input asp-for="RepositoryUrl" class="form-control ltr" placeholder="https://github.com/company/project.git" /></div>
+        <div class="col-md-4"><label asp-for="DefaultBaseRef">Base branch/tag</label><input asp-for="DefaultBaseRef" class="form-control ltr" /></div><div class="col-md-4"><label asp-for="VersionBaseRefTemplate">قالب نسخه</label><input asp-for="VersionBaseRefTemplate" class="form-control ltr" placeholder="release/{version}" /><div class="form-text">اگر خالی باشد Base Ref استفاده می‌شود.</div></div><div class="col-md-4"><label asp-for="BranchPrefix">پیشوند شاخه</label><input asp-for="BranchPrefix" class="form-control ltr" /></div>
+        <div class="col-md-6"><label asp-for="WorkingRoot">مسیر Workspace</label><input asp-for="WorkingRoot" class="form-control ltr" /></div><div class="col-md-3"><label asp-for="GitAuthorName">نام Committer</label><input asp-for="GitAuthorName" class="form-control ltr" /></div><div class="col-md-3"><label asp-for="GitAuthorEmail">ایمیل Committer</label><input asp-for="GitAuthorEmail" class="form-control ltr" /></div>
+        <div class="col-12 form-check form-switch switch-row"><input asp-for="PushEnabled" class="form-check-input" /><label asp-for="PushEnabled">پس از Commit شاخه به Origin پوش شود</label></div>
+    </div></section>
+    <section class="panel form-section"><div class="panel-heading"><h2>Agent Provider</h2></div><div class="row g-3">
+        <div class="col-md-6"><label asp-for="SelectedProvider">Provider فعال</label><select asp-for="SelectedProvider" asp-items="Html.GetEnumSelectList<AiProviderKind>()" class="form-select"></select></div><div class="col-md-6"><label asp-for="AgentTimeoutMinutes">Timeout (دقیقه)</label><input asp-for="AgentTimeoutMinutes" class="form-control ltr" /></div>
+        <div class="col-md-4"><label asp-for="CodexExecutable">Codex executable</label><input asp-for="CodexExecutable" class="form-control ltr" /></div><div class="col-md-8"><label asp-for="CodexArguments">Codex arguments</label><input asp-for="CodexArguments" class="form-control ltr" /></div>
+        <div class="col-md-4"><label asp-for="ClaudeExecutable">Claude executable</label><input asp-for="ClaudeExecutable" class="form-control ltr" /></div><div class="col-md-8"><label asp-for="ClaudeArguments">Claude arguments</label><input asp-for="ClaudeArguments" class="form-control ltr" /></div>
+    </div></section>
+    <div class="sticky-actions"><button class="btn btn-primary btn-lg" type="submit">ذخیره تنظیمات</button></div>
+</form>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

@@ -1,0 +1,8 @@
+**/bin/
+**/obj/
+.vs/
+src/TicketAutomation.Web/data/
+src/TicketAutomation.Web/data-protection-keys/
+src/TicketAutomation.Web/workspaces/
+*.user
+*.suo

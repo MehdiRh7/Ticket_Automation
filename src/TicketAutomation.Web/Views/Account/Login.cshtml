@@ -1,0 +1,4 @@
+@model LoginViewModel
+@{ ViewData["Title"] = "ورود"; }
+<div class="login-shell"><div class="panel login-card"><span class="eyebrow">دسترسی مدیریتی</span><h1>ورود به Orchestrator</h1><form method="post"><input asp-for="ReturnUrl" type="hidden" /><div asp-validation-summary="ModelOnly" class="text-danger"></div><div class="mb-3"><label asp-for="Username">نام کاربری</label><input asp-for="Username" class="form-control ltr" autofocus /></div><div class="mb-4"><label asp-for="Password">رمز عبور</label><input asp-for="Password" class="form-control ltr" /></div><button class="btn btn-primary w-100" type="submit">ورود</button></form></div></div>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

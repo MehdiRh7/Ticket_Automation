@@ -1,0 +1,16 @@
+@model TicketJob
+@{ ViewData["Title"] = $"تیکت {Model.ExternalTicketId}"; }
+<div class="page-heading d-flex justify-content-between align-items-end"><div><span class="eyebrow">تیکت #@Model.ExternalTicketId</span><h1>@Model.Title</h1><span class="badge status-@Model.Status.ToString().ToLowerInvariant()">@Model.Status</span></div><a asp-action="Index" class="btn btn-outline-secondary">بازگشت</a></div>
+@if (TempData["Success"] is string success) { <div class="alert alert-success">@success</div> }
+<div class="row g-4">
+    <div class="col-lg-8">
+        <section class="panel form-section"><div class="panel-heading"><h2>شرح تیکت</h2></div><pre class="report-box">@Model.Description</pre></section>
+        <section class="panel form-section"><div class="panel-heading"><h2>گزارش Agent</h2></div><pre class="report-box">@(Model.AgentSummary ?? "هنوز گزارشی ثبت نشده است.")</pre></section>
+        <section class="panel form-section"><div class="panel-heading"><h2>فایل‌های تغییرکرده</h2></div><pre class="report-box ltr">@(Model.ChangedFiles ?? "—")</pre></section>
+        <section class="panel form-section"><div class="panel-heading"><h2>لاگ اجرا</h2></div><pre class="report-box ltr">@(Model.ExecutionLog ?? "—")</pre></section>
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage)) { <div class="alert alert-danger"><strong>خطا:</strong> @Model.ErrorMessage</div> }
+    </div>
+    <div class="col-lg-4"><aside class="panel h-auto"><div class="panel-heading"><h2>جزئیات اجرا</h2></div><dl class="config-list"><dt>Provider</dt><dd>@Model.Provider</dd><dt>نسخه</dt><dd class="ltr">@(Model.ApplicationVersion ?? "—")</dd><dt>Base ref</dt><dd class="ltr">@(Model.BaseRef ?? "—")</dd><dt>Branch</dt><dd class="ltr">@(Model.BranchName ?? "—")</dd><dt>Commit</dt><dd class="ltr">@(Model.CommitSha ?? "—")</dd><dt>تعداد تلاش</dt><dd>@Model.AttemptCount</dd><dt>شروع</dt><dd class="ltr">@Model.StartedAt?.LocalDateTime.ToString("yyyy-MM-dd HH:mm")</dd><dt>پایان</dt><dd class="ltr">@Model.CompletedAt?.LocalDateTime.ToString("yyyy-MM-dd HH:mm")</dd></dl>
+    @if (Model.Status is not JobStatus.Pending and not JobStatus.Running) { <form asp-action="Retry" asp-route-id="@Model.Id" method="post"><button class="btn btn-outline-primary w-100">اجرای دوباره</button></form> }
+    </aside></div>
+</div>
