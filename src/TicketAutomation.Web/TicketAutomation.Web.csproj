@@ -5,6 +5,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>false</InvariantGlobalization>
+    <!-- Runtime agent workspaces must never become source/content of this web project. -->
+    <DefaultItemExcludes>$(DefaultItemExcludes);workspaces\**;work\**</DefaultItemExcludes>
   </PropertyGroup>
 
   <ItemGroup>

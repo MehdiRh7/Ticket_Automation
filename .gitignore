@@ -1,8 +1,11 @@
 **/bin/
 **/obj/
+**/work/
+**/workspaces/
 .vs/
-src/TicketAutomation.Web/data/
-src/TicketAutomation.Web/data-protection-keys/
-src/TicketAutomation.Web/workspaces/
+**/orchestrator.db
+**/orchestrator.db-shm
+**/orchestrator.db-wal
+**/data-protection-keys/
 *.user
 *.suo

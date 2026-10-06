@@ -24,14 +24,19 @@ public sealed class BranchNameFactory
     }
 }
 
-public sealed class GitWorkspaceService(ProcessRunner runner, IWebHostEnvironment environment)
+public sealed class GitWorkspaceService(ProcessRunner runner)
 {
     private static readonly TimeSpan GitTimeout = TimeSpan.FromMinutes(10);
 
     public async Task<string> CreateAsync(AutomationSettings settings, TicketJob job, string branchName, CancellationToken ct)
     {
         if (string.IsNullOrWhiteSpace(settings.RepositoryUrl)) throw new InvalidOperationException("آدرس Repository تنظیم نشده است.");
-        var root = Path.GetFullPath(settings.WorkingRoot, environment.ContentRootPath);
+        // A relative value is deliberately rooted in the OS temp directory instead of
+        // the ASP.NET project. SDK-style projects recursively compile *.cs files, so a
+        // cloned repository under ContentRoot can break the host application's build.
+        var root = Path.IsPathRooted(settings.WorkingRoot)
+            ? Path.GetFullPath(settings.WorkingRoot)
+            : Path.GetFullPath(Path.Combine(Path.GetTempPath(), "TicketAutomation", settings.WorkingRoot));
         Directory.CreateDirectory(root);
         var workspace = Path.Combine(root, $"job-{job.Id}-{Guid.NewGuid():N}");
         Directory.CreateDirectory(workspace);

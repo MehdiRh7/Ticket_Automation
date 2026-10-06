@@ -26,6 +26,7 @@ public sealed class AutomationSettings
     [MaxLength(256)] public string DefaultBaseRef { get; set; } = "main";
     [MaxLength(256)] public string VersionBaseRefTemplate { get; set; } = string.Empty;
     [MaxLength(64)] public string BranchPrefix { get; set; } = "ai/ticket-";
+    // Relative paths are resolved below the OS temp directory, outside this Web project.
     [MaxLength(1024)] public string WorkingRoot { get; set; } = "workspaces";
     public bool PushEnabled { get; set; } = true;
     [Range(1, 180)] public int AgentTimeoutMinutes { get; set; } = 45;

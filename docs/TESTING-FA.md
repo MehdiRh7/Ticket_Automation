@@ -129,7 +129,7 @@ Server=localhost;Database=TicketAutomationTest;Integrated Security=True;Encrypt=
 | Base branch/tag | نام واقعی شاخه مبنا، معمولاً `main` یا `master` |
 | قالب نسخه | برای تست اولیه خالی |
 | پیشوند شاخه | `ai/test-ticket-` |
-| مسیر Workspace | `workspaces` |
+| مسیر Workspace | `C:\TicketAI\workspaces` |
 | نام Committer | `Ticket Automation Test` |
 | ایمیل Committer | `ticket-automation-test@localhost` |
 | Push | برای تست اول خاموش |
@@ -147,6 +147,8 @@ C:\Projects\MyProject
 ```
 
 Repository محلی هم باید Git Repository معتبر باشد و شاخه مبنای واردشده را داشته باشد.
+
+در ویندوز مسیر Workspace را کوتاه و خارج از Repository نگه دارید. قرار دادن Workspace داخل پوشه خود پروژه ممکن است به خطای `Filename too long` یا Clone تو در تو منجر شود. پوشه‌های `bin`، `obj`، `work`، `workspaces`، `.vs` و دیتابیس Runtime نباید Commit شوند.
 
 ### Agent Provider
 
